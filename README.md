@@ -78,7 +78,7 @@ Then it displays all 10 coffee shop found in the regular google search named: or
 
 TODO
  * [ ] Add test
- * [ ] Implement all 3 API
+ * [x] Implement all 3 API
  * [ ] Provide advanced examples like: https://github.com/serpapi/google-search-results-ruby
  * [ ] Enable CI integration
  * [ ] Publish package

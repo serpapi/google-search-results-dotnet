@@ -1,0 +1,9 @@
+language: csharp
+mono: none
+dotnet: 2.1.502
+solution: solution-name.sln
+env:
+  - API_KEY=demo
+script:
+  - make
+

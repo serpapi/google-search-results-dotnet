@@ -1,5 +1,6 @@
+
 # all
-all: run
+all: build run
 
 build:
 	dotnet build
