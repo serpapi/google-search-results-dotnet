@@ -3,7 +3,8 @@ mono: none
 dotnet: 2.1.502
 env:
   - API_KEY=demo
-script:
+install:
   - dotnet restore
+script:
   - dotnet build
   - dotnet run
