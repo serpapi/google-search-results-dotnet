@@ -1,10 +1,10 @@
-# Google Search Result in Dotnet / CSharp / .Net
+# Google/Bing/Baidu Search Result in Dotnet / CSharp / .Net
 
 [![Build Status](https://travis-ci.org/serpapi/google-search-results-dotnet.svg?branch=master)](https://travis-ci.org/serpapi/google-search-results-dotnet)
 
-This Dotnet package is meant to scrape and parse Google results using [SerpApi](https://serpapi.com).
+This Dotnet package is meant to scrape and parse Google or Bing or Baidu results using [SerpApi](https://serpapi.com).
 
-This is work in progress..
+This extension is in development. But the code can be re-use for production because the API is already stable.
 
 The following services are provided:
  * [Search API](https://serpapi.com/search-api) 
@@ -22,6 +22,8 @@ Install dotnet
 I have only tested on OSX only.
 
 ## Quick start 
+
+Search Google (default search engine)
 
 ```csharp
 using System;
@@ -78,9 +80,16 @@ class Program
 This example displays the top 3 coffee shop in Austin Texas found in the local_results.
 Then it displays all 10 coffee shop found in the regular google search named: organic_results.
 
+Note: If you like to search with Baidu or Bing.
+```csharp
+string engine = "bing"; # baidu
+client =  new GoogleSearchResultsClient(ht, apiKey, engine);
+```
+
 TODO
+---
  * [ ] Add test
  * [x] Implement all 3 API
  * [ ] Provide advanced examples like: https://github.com/serpapi/google-search-results-ruby
- * [ ] Enable CI integration
+ * [x] Enable CI integration
  * [ ] Publish package
