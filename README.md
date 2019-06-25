@@ -1,5 +1,7 @@
 # Google Search Result in Dotnet / CSharp / .Net
 
+[![Build Status](https://travis-ci.org/serpapi/google-search-results-dotnet.svg?branch=master)](https://travis-ci.org/serpapi/google-search-results-dotnet)
+
 This Dotnet package is meant to scrape and parse Google results using [SerpApi](https://serpapi.com).
 
 This is work in progress..
