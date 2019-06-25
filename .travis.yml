@@ -5,4 +5,5 @@ env:
   - API_KEY=demo
 script:
   - dotnet restore
-  - make
+  - dotnet build
+  - dotnet run
