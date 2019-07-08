@@ -88,8 +88,8 @@ client =  new GoogleSearchResultsClient(ht, apiKey, engine);
 
 TODO
 ---
- * [ ] Add test
- * [x] Implement all 3 API
- * [ ] Provide advanced examples like: https://github.com/serpapi/google-search-results-ruby
+ * [x] Add test
+ * [x] Implement all 4 API
  * [x] Enable CI integration
  * [ ] Publish package
+ * [ ] Add advanced examples like: https://github.com/serpapi/google-search-results-ruby (wait for user feedback)

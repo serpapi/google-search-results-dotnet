@@ -2,10 +2,11 @@ language: csharp
 mono: none
 dist: bionic
 dotnet: 2.2.105
+solution: google-search-results-dotnet.sln
 env:
   - API_KEY=demo
 install:
   - dotnet restore
 script:
   - dotnet build
-  - dotnet run
+  - dotnet test

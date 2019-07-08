@@ -1,5 +1,5 @@
 using System;
-using GoogleSearchResults;
+using SerpApi;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections;
@@ -27,7 +27,7 @@ class Program
     ht.Add("google_domain", "google.com");
 
     try
-    {      
+    {
       GoogleSearchResultsClient client = new GoogleSearchResultsClient(ht, apiKey, "google");
 
       Console.WriteLine("Get location matching: Austin");
@@ -52,7 +52,7 @@ class Program
       }
 
        string id = (string)((JObject)data["search_metadata"])["id"];
-      Console.WriteLine("Search from the archive: " + id + ". [0 credit]");    
+      Console.WriteLine("Search from the archive: " + id + ". [0 credit]");
       JObject archivedSearch =  client.GetSearchArchiveJson(id);
       foreach (JObject coffeeShop in (JArray)archivedSearch["organic_results"])
       {
@@ -63,7 +63,7 @@ class Program
       Console.WriteLine("Account information: [0 credit]");
       JObject account =  client.GetAccount();
       Dictionary<string, string> dictObj = account.ToObject<Dictionary<string, string>>();
-      foreach(string key in dictObj.Keys) 
+      foreach(string key in dictObj.Keys)
       {
         Console.WriteLine(key + " = " + dictObj[key]);
       }
@@ -71,7 +71,7 @@ class Program
       // account_id = xx
       // api_key = xx
       // account_email = victor.benarbia@gmail.com
-      // plan_id = 
+      // plan_id =
       // plan_name = No Plan
       // searches_per_month = 0
       // this_month_usage = 0
@@ -79,7 +79,7 @@ class Program
       // last_hour_searches = 0
 
     }
-    catch (GoogleSearchResultsException ex)
+    catch (SerpApiSearchResultsException ex)
     {
       Console.WriteLine("Exception:");
       Console.WriteLine(ex.ToString());

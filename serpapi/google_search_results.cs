@@ -1,5 +1,5 @@
 using System;
-using GoogleSearchResults;
+using SerpApi;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections;
@@ -9,12 +9,14 @@ using System.Text.RegularExpressions;
 /***
  *
  */
-namespace GoogleSearchResults
+namespace SerpApi
 {
-  class GoogleSearchResultsClient
+  public class GoogleSearchResultsClient
   {
     const string GOOGLE_ENGINE = "google";
     const string JSON_FORMAT = "json";
+
+    const string HTML_FORMAT = "html";
 
     const string HOST = "https://serpapi.com";
 
@@ -48,7 +50,7 @@ namespace GoogleSearchResults
       Regex checkEngine = new Regex(@"(google|bing|baidu)", RegexOptions.Compiled);
       if (!checkEngine.IsMatch(engine))
       {
-        throw new GoogleSearchResultsException("only google or bing or baidu are supported engine");
+        throw new SerpApiSearchResultsException("only google or bing or baidu are supported engine");
       }
       engineContext = engine;
     }
@@ -68,7 +70,7 @@ namespace GoogleSearchResults
     {
       if (engineContext != GOOGLE_ENGINE)
       {
-        throw new GoogleSearchResultsException("only " + GOOGLE_ENGINE + " is supported at this time by location API");
+        throw new SerpApiSearchResultsException("only " + GOOGLE_ENGINE + " is supported at this time by location API");
       }
       string buffer = getRawResult("/locations.json", "location=" + location + "&limit=" + limit, false);
       return JArray.Parse(buffer);
@@ -77,28 +79,31 @@ namespace GoogleSearchResults
     /***
      * Get search archive for JSON results
      */
-    public JObject GetSearchArchiveJson(string searchId) {
+    public JObject GetSearchArchiveJson(string searchId)
+    {
       return getJsonResult("/searches/" + searchId + ".json", GetParameter(parameterContext));
     }
 
     /***
-     * Get search archive for HTML results
+     * Get search HTML results
      */
-    public string GetSearchArchiveHtml(string searchId) {
-      return getRawResult("/searches/" + searchId + ".json", null, false);
+    public string GetHtml()
+    {
+      return getRawResult("/search", GetParameter(parameterContext), false);
     }
 
-      /***
-     * Get search archive for JSON results
-     */
-    public JObject GetAccount() {
+    /***
+   * Get search archive for JSON results
+   */
+    public JObject GetAccount()
+    {
       return getJsonResult("/account", GetParameter(parameterContext));
     }
 
-    public string getRawResult(string uri, string parameter, bool json)
+    public string getRawResult(string uri, string parameter, bool jsonEnabled)
     {
       // run asynchonous http query (.net framework implementation)
-      Task<string> queryTask = Query(uri, parameter, json);
+      Task<string> queryTask = Query(uri, parameter, jsonEnabled);
       // block until http query is completed
       queryTask.ConfigureAwait(true);
       // parse result into json
@@ -113,7 +118,7 @@ namespace GoogleSearchResults
       // report error if something went wrong
       if (data.ContainsKey("error"))
       {
-        throw new GoogleSearchResultsException(data.GetValue("error").ToString());
+        throw new SerpApiSearchResultsException(data.GetValue("error").ToString());
       }
       return data;
     }
@@ -132,7 +137,8 @@ namespace GoogleSearchResults
         s += key + "=" + ht[key];
         i += 1;
       }
-      if(apiKeyContext != null) {
+      if (apiKeyContext != null)
+      {
         s += "&api_key=" + apiKeyContext;
       }
       return System.Web.HttpUtility.UrlPathEncode(s);
@@ -142,19 +148,16 @@ namespace GoogleSearchResults
     {
       // build url
       String url = HOST + uri;
-      if(parameter != null) 
+      if (parameter != null)
       {
-        url += "?" + parameter;
-        if(jsonEnabled) 
-        {
-          url += "&output=" + JSON_FORMAT;
-        }
+        url += "?" + parameter ;
       }
+
+      url += "&output=" + (jsonEnabled ? JSON_FORMAT : HTML_FORMAT);
 
       try
       {
         HttpClient client = new HttpClient();
-        Console.WriteLine(url);
         HttpResponseMessage response = await client.GetAsync(url);
 
         var content = await response.Content.ReadAsStringAsync();
@@ -170,19 +173,19 @@ namespace GoogleSearchResults
         }
         else
         {
-          throw new GoogleSearchResultsException("Http request fail: " + content);
+          throw new SerpApiSearchResultsException("Http request fail: " + content);
         }
       }
       catch (Exception ex)
       {
-        throw new GoogleSearchResultsException(ex.ToString());
+        throw new SerpApiSearchResultsException(ex.ToString());
       }
-      throw new GoogleSearchResultsException("Oops something went very wrong");
+      throw new SerpApiSearchResultsException("Oops something went very wrong");
     }
   }
 
-  class GoogleSearchResultsException : Exception
+  class SerpApiSearchResultsException : Exception
   {
-    public GoogleSearchResultsException(string message) : base(message) { }
+    public SerpApiSearchResultsException(string message) : base(message) { }
   }
 }
