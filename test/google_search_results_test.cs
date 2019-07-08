@@ -73,6 +73,12 @@ namespace SerpApi.Test
     [TestMethod]
     public void TestGetArchive()
     {
+      // Skip test on travis ci
+      if(apiKey == null || apiKey == "demo")
+      {
+        return;
+      }
+
       client = new GoogleSearchResultsClient(ht, apiKey, "google");
       JObject data = client.GetJson();
       string id = (string)((JObject)data["search_metadata"])["id"];
@@ -84,6 +90,11 @@ namespace SerpApi.Test
 
     public void TestGetAccount()
     {
+      // Skip test on travis ci
+      if(apiKey == null || apiKey == "demo")
+      {
+        return;
+      }
       JObject account = client.GetAccount();
       Dictionary<string, string> dict = account.ToObject<Dictionary<string, string>>();
       Assert.IsNotNull(dict["account_id"]);
