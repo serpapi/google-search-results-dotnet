@@ -2,6 +2,9 @@
 # all
 all: build run
 
+clean:
+	dotnet clean
+
 build:
 	dotnet build
 
@@ -13,5 +16,7 @@ run:
 # https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli
 #
 # Package API
-pack:
+publish:
 	dotnet pack
+#	open serpapi/bin/Debug
+#	open -a "Google\ Chrome" https://www.nuget.org/packages/manage/upload

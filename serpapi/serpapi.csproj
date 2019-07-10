@@ -4,12 +4,24 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>google_search_results_dotnet</RootNamespace>
     <PackageId>google-search-results-dotnet</PackageId>
-    <Version>0.1.0</Version>
+    <Version>1.2.0</Version>
+    <PackageVersion>1.2.0</PackageVersion>
     <Authors>api@serpapi.com</Authors>
-    <Company>SerpApi</Company>
+    <Company>SerpApi.LLC</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>MIT-LICENSE.txt</PackageLicenseFile>
+    <PackageReleaseNotes>README.md</PackageReleaseNotes>
+    <Title>Google-Search-Results</Title>
+    <PackageDescription>Search Results via SERP API. Hash, JSON, and HTML format supported for Google, Bing, Baidu, Google Product and more...</PackageDescription>
+    <PackageTags>Search,Engine,Google,Scraping,Scrape,Crawl,Baidu,Bing</PackageTags>
+    <Copyright>SerpAPI LLC 2019</Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <IsPackable>true</IsPackable>
+    <RepositoryUrl>https://github.com/serpapi/google-search-results-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <None Include="../MIT-LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)"/>
   </ItemGroup>
 </Project>
