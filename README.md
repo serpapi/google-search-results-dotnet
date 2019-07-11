@@ -1,6 +1,7 @@
 # Google/Bing/Baidu Search Result in Dotnet / CSharp / .Net
 
 [![Build Status](https://travis-ci.org/serpapi/google-search-results-dotnet.svg?branch=master)](https://travis-ci.org/serpapi/google-search-results-dotnet)
+[![NuGet version](https://badge.fury.io/nu/google-search-results-dotnet.svg)](https://badge.fury.io/nu/google-search-results-dotnet)
 
 This Dotnet package is meant to scrape and parse Google or Bing or Baidu results using [SerpApi](https://serpapi.com).
 
@@ -18,8 +19,12 @@ Feel free to fork this repository to add more backends.
 
 ## Installation
 
-Install dotnet 
-I have only tested on OSX only.
+To install the package.
+```bash
+dotnet add package google-search-results-dotnet --version 1.2.0
+```
+
+More commands available: [[https://www.nuget.org/packages/google-search-results-dotnet]]
 
 ## Quick start 
 
@@ -91,5 +96,6 @@ TODO
  * [x] Add test
  * [x] Implement all 4 API
  * [x] Enable CI integration
- * [ ] Publish package
+ * [x] Publish package
+ * [ ] Improve documentation
  * [ ] Add advanced examples like: https://github.com/serpapi/google-search-results-ruby (wait for user feedback)
