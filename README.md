@@ -24,7 +24,7 @@ To install the package.
 dotnet add package google-search-results-dotnet --version 1.2.0
 ```
 
-More commands available: [[https://www.nuget.org/packages/google-search-results-dotnet]]
+More commands available at https://www.nuget.org/packages/google-search-results-dotnet
 
 ## Quick start 
 
