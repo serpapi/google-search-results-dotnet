@@ -14,7 +14,8 @@ class Program
   {
     // secret api key from https://serpapi.com/dashboard
     String apiKey = Environment.GetEnvironmentVariable("API_KEY");
-    if(apiKey == null) {
+    if (apiKey == null)
+    {
       Console.WriteLine("API_KEY environment variable be set your secret api key visit: https://serpapi.com/dashboard");
       Environment.Exit(1);
     }
@@ -28,11 +29,12 @@ class Program
 
     try
     {
-      GoogleSearchResultsClient client = new GoogleSearchResultsClient(ht, apiKey, "google");
+      GoogleSearchResultsClient client = new GoogleSearchResultsClient(ht, apiKey);
 
       Console.WriteLine("Get location matching: Austin");
       JArray locations = client.GetLocation("Austin,TX", 3);
-      foreach(JObject location in locations) {
+      foreach (JObject location in locations)
+      {
         Console.WriteLine(location);
       }
 
@@ -51,9 +53,9 @@ class Program
         Console.WriteLine("Found: " + coffeeShop["title"]);
       }
 
-       string id = (string)((JObject)data["search_metadata"])["id"];
+      string id = (string)((JObject)data["search_metadata"])["id"];
       Console.WriteLine("Search from the archive: " + id + ". [0 credit]");
-      JObject archivedSearch =  client.GetSearchArchiveJson(id);
+      JObject archivedSearch = client.GetSearchArchiveJson(id);
       foreach (JObject coffeeShop in (JArray)archivedSearch["organic_results"])
       {
         Console.WriteLine("Found: " + coffeeShop["title"]);
@@ -61,9 +63,9 @@ class Program
 
       //  Get account information
       Console.WriteLine("Account information: [0 credit]");
-      JObject account =  client.GetAccount();
+      JObject account = client.GetAccount();
       Dictionary<string, string> dictObj = account.ToObject<Dictionary<string, string>>();
-      foreach(string key in dictObj.Keys)
+      foreach (string key in dictObj.Keys)
       {
         Console.WriteLine(key + " = " + dictObj[key]);
       }
@@ -79,7 +81,7 @@ class Program
       // last_hour_searches = 0
 
     }
-    catch (SerpApiSearchResultsException ex)
+    catch (SerpApiClientException ex)
     {
       Console.WriteLine("Exception:");
       Console.WriteLine(ex.ToString());

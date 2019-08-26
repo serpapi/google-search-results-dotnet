@@ -1,5 +1,4 @@
 using System;
-using SerpApi;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections;
@@ -7,13 +6,16 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
 /***
- *
+ * Client for SerpApi.com
  */
 namespace SerpApi
 {
-  public class GoogleSearchResultsClient
+  public class SerpApiClient
   {
-    const string GOOGLE_ENGINE = "google";
+    public const string GOOGLE_ENGINE = "google";
+    public const string BAIDU_ENGINE = "baidu";
+    public const string BING_ENGINE = "bing";
+
     const string JSON_FORMAT = "json";
 
     const string HTML_FORMAT = "html";
@@ -28,12 +30,12 @@ namespace SerpApi
     // search engine: google (default) or bing
     private string engineContext;
 
-    public GoogleSearchResultsClient(string apiKey, string engine = GOOGLE_ENGINE)
+    public SerpApiClient(string apiKey, string engine = GOOGLE_ENGINE)
     {
       initialize(new Hashtable(), apiKey, engine);
     }
 
-    public GoogleSearchResultsClient(Hashtable parameter, string apiKey, string engine = GOOGLE_ENGINE)
+    public SerpApiClient(Hashtable parameter, string apiKey, string engine = GOOGLE_ENGINE)
     {
       initialize(parameter, apiKey, engine);
     }
@@ -50,7 +52,7 @@ namespace SerpApi
       Regex checkEngine = new Regex(@"(google|bing|baidu)", RegexOptions.Compiled);
       if (!checkEngine.IsMatch(engine))
       {
-        throw new SerpApiSearchResultsException("only google or bing or baidu are supported engine");
+        throw new SerpApiClientException("only google or bing or baidu are supported engine");
       }
       engineContext = engine;
     }
@@ -61,19 +63,6 @@ namespace SerpApi
     public JObject GetJson()
     {
       return getJsonResult("/search.json", GetParameter(parameterContext));
-    }
-
-    /*
-     * Get list of location using Location API
-     */
-    public JArray GetLocation(string location, int limit)
-    {
-      if (engineContext != GOOGLE_ENGINE)
-      {
-        throw new SerpApiSearchResultsException("only " + GOOGLE_ENGINE + " is supported at this time by location API");
-      }
-      string buffer = getRawResult("/locations.json", "location=" + location + "&limit=" + limit, false);
-      return JArray.Parse(buffer);
     }
 
     /***
@@ -118,11 +107,10 @@ namespace SerpApi
       // report error if something went wrong
       if (data.ContainsKey("error"))
       {
-        throw new SerpApiSearchResultsException(data.GetValue("error").ToString());
+        throw new SerpApiClientException(data.GetValue("error").ToString());
       }
       return data;
     }
-
 
     public string GetParameter(Hashtable ht)
     {
@@ -150,7 +138,7 @@ namespace SerpApi
       String url = HOST + uri;
       if (parameter != null)
       {
-        url += "?" + parameter ;
+        url += "?" + parameter;
       }
 
       url += "&output=" + (jsonEnabled ? JSON_FORMAT : HTML_FORMAT);
@@ -173,19 +161,46 @@ namespace SerpApi
         }
         else
         {
-          throw new SerpApiSearchResultsException("Http request fail: " + content);
+          throw new SerpApiClientException("Http request fail: " + content);
         }
       }
       catch (Exception ex)
       {
-        throw new SerpApiSearchResultsException(ex.ToString());
+        throw new SerpApiClientException(ex.ToString());
       }
-      throw new SerpApiSearchResultsException("Oops something went very wrong");
+      throw new SerpApiClientException("Oops something went very wrong");
     }
   }
 
-  class SerpApiSearchResultsException : Exception
+  public class SerpApiClientException : Exception
   {
-    public SerpApiSearchResultsException(string message) : base(message) { }
+    public SerpApiClientException(string message) : base(message) { }
+  }
+
+  public class GoogleSearchResultsClient : SerpApiClient
+  {
+
+    public GoogleSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.GOOGLE_ENGINE) { }
+
+    public GoogleSearchResultsClient(String apiKey) : base(new Hashtable(), apiKey, SerpApiClient.GOOGLE_ENGINE) { }
+
+    /*
+     * Get list of location using Location API
+     */
+    public JArray GetLocation(string location, int limit)
+    {
+      string buffer = getRawResult("/locations.json", "location=" + location + "&limit=" + limit, false);
+      return JArray.Parse(buffer);
+    }
+  }
+
+  public class BingSearchResultsClient : SerpApiClient
+  {
+    public BingSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.BING_ENGINE) { }
+  }
+
+  public class BaiduSearchResultsClient : SerpApiClient
+  {
+    public BaiduSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.BAIDU_ENGINE) { }
   }
 }

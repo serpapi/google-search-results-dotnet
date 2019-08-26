@@ -50,7 +50,7 @@ namespace SerpApi.Test
     [TestMethod]
     public void TestGetJson()
     {
-      client = new GoogleSearchResultsClient(ht, apiKey, "google");
+      client = new GoogleSearchResultsClient(ht, apiKey);
       JObject data = client.GetJson();
       JArray coffeeShops = (JArray)data["local_results"];
       int counter = 0;
@@ -74,12 +74,12 @@ namespace SerpApi.Test
     public void TestGetArchive()
     {
       // Skip test on travis ci
-      if(apiKey == null || apiKey == "demo")
+      if (apiKey == null || apiKey == "demo")
       {
         return;
       }
 
-      client = new GoogleSearchResultsClient(ht, apiKey, "google");
+      client = new GoogleSearchResultsClient(ht, apiKey);
       JObject data = client.GetJson();
       string id = (string)((JObject)data["search_metadata"])["id"];
       JObject archivedSearch = client.GetSearchArchiveJson(id);
@@ -91,7 +91,7 @@ namespace SerpApi.Test
     public void TestGetAccount()
     {
       // Skip test on travis ci
-      if(apiKey == null || apiKey == "demo")
+      if (apiKey == null || apiKey == "demo")
       {
         return;
       }
@@ -105,7 +105,7 @@ namespace SerpApi.Test
     [TestMethod]
     public void TestGetHtml()
     {
-      client = new GoogleSearchResultsClient(ht, apiKey, "google");
+      client = new GoogleSearchResultsClient(ht, apiKey);
       string htmlContent = client.GetHtml();
       Assert.IsNotNull(htmlContent);
       //Console.WriteLine(htmlContent);
