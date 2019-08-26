@@ -58,6 +58,9 @@ namespace SerpApi
         throw new SerpApiClientException("only google or bing or baidu are supported engine");
       }
       engineContext = engine;
+
+     // default timeout
+     timeoutSeconds = 30;
     }
 
     /***

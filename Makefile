@@ -1,12 +1,17 @@
 
+.PHONY: test
+
 # all
-all: build run
+all: clean build test
 
 clean:
 	dotnet clean
 
 build:
 	dotnet build
+
+test:
+	dotnet test
 
 run:
 	dotnet run
