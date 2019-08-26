@@ -30,6 +30,9 @@ namespace SerpApi
     // search engine: google (default) or bing
     private string engineContext;
 
+    // Set HTTP request timeout
+    private int timeoutSeconds;
+
     public SerpApiClient(string apiKey, string engine = GOOGLE_ENGINE)
     {
       initialize(new Hashtable(), apiKey, engine);
@@ -55,6 +58,14 @@ namespace SerpApi
         throw new SerpApiClientException("only google or bing or baidu are supported engine");
       }
       engineContext = engine;
+    }
+
+    /***
+     * Set HTTP timeout in seconds
+     */
+    public void setTimeoutSeconds(int seconds)
+    {
+      this.timeoutSeconds = seconds;
     }
 
     /***
@@ -146,6 +157,7 @@ namespace SerpApi
       try
       {
         HttpClient client = new HttpClient();
+        client.Timeout = TimeSpan.FromSeconds(timeoutSeconds);
         HttpResponseMessage response = await client.GetAsync(url);
 
         var content = await response.Content.ReadAsStringAsync();
