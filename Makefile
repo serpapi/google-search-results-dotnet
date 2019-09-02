@@ -21,7 +21,7 @@ run:
 # https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli
 #
 # Package API
-publish:
+release:
 	dotnet pack
-#	open serpapi/bin/Debug
-#	open -a "Google\ Chrome" https://www.nuget.org/packages/manage/upload
+	open serpapi/bin/Debug
+	open -a "Google\ Chrome" https://www.nuget.org/packages/manage/upload
