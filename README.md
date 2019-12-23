@@ -21,7 +21,7 @@ Feel free to fork this repository to add more backends.
 
 To install the package.
 ```bash
-dotnet add package google-search-results-dotnet --version 1.2.0
+dotnet add package google-search-results-dotnet --version 1.3.1
 ```
 
 More commands available at https://www.nuget.org/packages/google-search-results-dotnet
@@ -64,7 +64,7 @@ namespace Baidu
         Console.WriteLine("Search coffee in Austin, Texas on Google [1 credit]");
         JObject data = client.GetJson();
         Console.WriteLine("local coffee shop");
-        JArray coffeeShops = (JArray)data["local_results"];
+        JArray coffeeShops = (JArray)data["local_results"]["places"];
         foreach (JObject coffeeShop in coffeeShops)
         {
           Console.WriteLine("Found: " + coffeeShop["title"]);
