@@ -15,7 +15,7 @@ namespace SerpApi
     public const string GOOGLE_ENGINE = "google";
     public const string BAIDU_ENGINE = "baidu";
     public const string BING_ENGINE = "bing";
-
+    public const string YAHOO_ENGINE = "yahoo";
     const string JSON_FORMAT = "json";
 
     const string HTML_FORMAT = "html";
@@ -30,8 +30,8 @@ namespace SerpApi
     // search engine: google (default) or bing
     private string engineContext;
 
-    // Set HTTP request timeout
-    private int timeoutSeconds;
+    // Core HTTP client
+    public HttpClient client;
 
     public SerpApiClient(string apiKey, string engine = GOOGLE_ENGINE)
     {
@@ -52,15 +52,13 @@ namespace SerpApi
       apiKeyContext = apiKey;
 
       // set search engine
-      Regex checkEngine = new Regex(@"(google|bing|baidu)", RegexOptions.Compiled);
-      if (!checkEngine.IsMatch(engine))
-      {
-        throw new SerpApiClientException("only google or bing or baidu are supported engine");
-      }
       engineContext = engine;
 
-     // default timeout
-     timeoutSeconds = 30;
+      // initialize clean
+      this.client = new HttpClient();
+
+      // set default timeout to 60s
+      this.setTimeoutSeconds(60);
     }
 
     /***
@@ -68,7 +66,7 @@ namespace SerpApi
      */
     public void setTimeoutSeconds(int seconds)
     {
-      this.timeoutSeconds = seconds;
+      this.client.Timeout = TimeSpan.FromSeconds(seconds);
     }
 
     /***
@@ -146,6 +144,14 @@ namespace SerpApi
       return System.Web.HttpUtility.UrlPathEncode(s);
     }
 
+    /***
+     * Close socket connection associated to HTTP client
+     */
+    public void Close()
+    {
+      this.client.Dispose();
+    }
+
     private async Task<string> Query(string uri, string parameter, bool jsonEnabled)
     {
       // build url
@@ -159,19 +165,18 @@ namespace SerpApi
 
       try
       {
-        HttpClient client = new HttpClient();
-        client.Timeout = TimeSpan.FromSeconds(timeoutSeconds);
-        HttpResponseMessage response = await client.GetAsync(url);
-
+        HttpResponseMessage response = await this.client.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
         if (jsonEnabled)
         {
+          response.Dispose();
           return content;
         }
 
         // html response or other
         if (response.IsSuccessStatusCode)
         {
+          response.Dispose();
           return content;
         }
         else
@@ -186,6 +191,7 @@ namespace SerpApi
       throw new SerpApiClientException("Oops something went very wrong");
     }
   }
+
 
   public class SerpApiClientException : Exception
   {
@@ -217,5 +223,10 @@ namespace SerpApi
   public class BaiduSearchResultsClient : SerpApiClient
   {
     public BaiduSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.BAIDU_ENGINE) { }
+  }
+
+  public class YahooSearchResultsClient : SerpApiClient
+  {
+    public YahooSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.YAHOO_ENGINE) { }
   }
 }

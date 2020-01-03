@@ -92,6 +92,9 @@ namespace Baidu
         {
           Console.WriteLine(key + " = " + dictObj[key]);
         }
+
+        // close socket
+        client.Close()
       }
       catch (SerpApiClientException ex)
       {
@@ -122,12 +125,24 @@ client =  new BaiduSearchResultsClient(parameter, apiKey);
 A full example is available here.
 https://github.com/serpapi/google-search-results-dotnet/blob/master/example/baidu/
 
+## Yahoo search engine
+```csharp
+client =  new YahooSearchResultsClient(parameter, apiKey);
+```
+test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/yahoo_search_results_test.cs
+
 ## Test
 
 This API is fully unit tested. The tests can be used as implementation examples.
 https://github.com/serpapi/google-search-results-dotnet/tree/master/test
 
 ## Changes log
+#### 1.4
+ * Bug fix: Release Socket connection when requests finish. 
+   Because Dotnet does not release the ressource when the HTTP Client is closed.
+ * Add Yahoo support: YahooSearchResultsClient
+ * Create only one client for all the connection
+  
 #### 1.3 
  * Add bing and baidu support
  * Allow custom HTTP timeout using: setTimeoutSeconds

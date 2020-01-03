@@ -68,6 +68,9 @@ namespace SerpApi.Test
         Console.WriteLine("Found: " + coffeeShop["title"]);
         Assert.IsNotNull(coffeeShop["title"]);
       }
+
+      // Release socket connection
+      client.Close();
     }
 
     [TestMethod]
@@ -110,6 +113,9 @@ namespace SerpApi.Test
       Assert.IsNotNull(htmlContent);
       //Console.WriteLine(htmlContent);
       Assert.IsTrue(htmlContent.Contains("</body>"));
+
+      // Release socket connection
+      client.Close();
     }
 
     private int GetSize(JArray array)
