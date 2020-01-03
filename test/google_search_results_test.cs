@@ -52,7 +52,7 @@ namespace SerpApi.Test
     {
       client = new GoogleSearchResultsClient(ht, apiKey);
       JObject data = client.GetJson();
-      JArray coffeeShops = (JArray)data["local_results"];
+      JArray coffeeShops = (JArray)data["local_results"]["places"];
       int counter = 0;
       foreach (JObject coffeeShop in coffeeShops)
       {
