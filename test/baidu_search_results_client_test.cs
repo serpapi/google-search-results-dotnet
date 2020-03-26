@@ -8,40 +8,31 @@ using System.Collections.Generic;
 namespace SerpApi.Test
 {
   [TestClass]
-  public class BingSearchResultTest
+  public class BaiduSearchResultsClientTest
   {
-    private BingSearchResultsClient client;
+    private BaiduSearchResultsClient client;
     private String apiKey;
 
     private Hashtable ht;
 
-    public BingSearchResultTest()
+    public BaiduSearchResultsClientTest()
     {
       apiKey = Environment.GetEnvironmentVariable("API_KEY");
 
       // Localized search for Coffee shop in Austin Texas
       ht = new Hashtable();
-      ht.Add("location", "Austin, Texas, United States");
       ht.Add("q", "Coffee");
-      ht.Add("hl", "en");
-      ht.Add("google_domain", "google.com");
     }
 
     [TestMethod]
     public void TestGetJson()
     {
-      client = new BingSearchResultsClient(ht, apiKey);
+      client = new BaiduSearchResultsClient(ht, apiKey);
       JObject data = client.GetJson();
-      JArray coffeeShops = (JArray)data["local_results"]["places"];
-      int counter = 0;
-      foreach (JObject coffeeShop in coffeeShops)
-      {
-        Assert.IsNotNull(coffeeShop["title"]);
-        counter++;
-      }
-      Assert.IsTrue(counter >= 1);
 
-      coffeeShops = (JArray)data["organic_results"];
+      Assert.AreEqual(data["search_metadata"]["status"], "Success");
+
+      JArray coffeeShops = (JArray)data["organic_results"];
       Assert.IsNotNull(coffeeShops);
       foreach (JObject coffeeShop in coffeeShops)
       {

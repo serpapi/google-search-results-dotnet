@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/serpapi/google-search-results-dotnet.svg?branch=master)](https://travis-ci.org/serpapi/google-search-results-dotnet)
 [![NuGet version](https://badge.fury.io/nu/google-search-results-dotnet.svg)](https://badge.fury.io/nu/google-search-results-dotnet)
 
-This Dotnet package is meant to scrape and parse Google or Bing or Baidu results using [SerpApi](https://serpapi.com).
+This Dotnet package is meant to scrape and parse Google, Bing, Baidu, Yandex, Yahoo, Ebay results using [SerpApi](https://serpapi.com).
 
 This extension is in development. But the code can be re-use for production because the API is already stable.
 
@@ -13,15 +13,14 @@ The following services are provided:
  * [Search Archive API](https://serpapi.com/search-archive-api)  - not implemented
  * [Account API](https://serpapi.com/account-api) - not implemented
 
-Serp API provides a [script builder](https://serpapi.com/demo) to get you started quickly.
+SerpApi provides a [script builder](https://serpapi.com/demo) to get you started quickly.
 
-Feel free to fork this repository to add more backends.
 
 ## Installation
 
 To install the package.
 ```bash
-dotnet add package google-search-results-dotnet --version 1.3.1
+dotnet add package google-search-results-dotnet --version 1.4.0
 ```
 
 More commands available at https://www.nuget.org/packages/google-search-results-dotnet
@@ -129,7 +128,19 @@ https://github.com/serpapi/google-search-results-dotnet/blob/master/example/baid
 ```csharp
 client =  new YahooSearchResultsClient(parameter, apiKey);
 ```
-test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/yahoo_search_results_test.cs
+test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/yahoo_search_results_client_test.cs
+
+## Yandex search engine
+```csharp
+client =  new YandexSearchResultsClient(parameter, apiKey);
+```
+test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/yahoo_search_results_client_test.cs
+
+## Ebay search engine
+```csharp
+client =  new EbaySearchResultsClient(parameter, apiKey);
+```
+test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/ebay_search_results_client_test.cs
 
 ## Test
 
@@ -137,6 +148,9 @@ This API is fully unit tested. The tests can be used as implementation examples.
 https://github.com/serpapi/google-search-results-dotnet/tree/master/test
 
 ## Changes log
+### 1.5
+ * Add support for Yandex, Ebay, Yahoo
+  
 #### 1.4
  * Bug fix: Release Socket connection when requests finish. 
    Because Dotnet does not release the ressource when the HTTP Client is closed.

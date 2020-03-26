@@ -16,6 +16,9 @@ namespace SerpApi
     public const string BAIDU_ENGINE = "baidu";
     public const string BING_ENGINE = "bing";
     public const string YAHOO_ENGINE = "yahoo";
+    public const string YANDEX_ENGINE = "yandex";
+    public const string EBAY_ENGINE = "ebay";
+
     const string JSON_FORMAT = "json";
 
     const string HTML_FORMAT = "html";
@@ -192,41 +195,9 @@ namespace SerpApi
     }
   }
 
-
   public class SerpApiClientException : Exception
   {
     public SerpApiClientException(string message) : base(message) { }
   }
 
-  public class GoogleSearchResultsClient : SerpApiClient
-  {
-
-    public GoogleSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.GOOGLE_ENGINE) { }
-
-    public GoogleSearchResultsClient(String apiKey) : base(new Hashtable(), apiKey, SerpApiClient.GOOGLE_ENGINE) { }
-
-    /*
-     * Get list of location using Location API
-     */
-    public JArray GetLocation(string location, int limit)
-    {
-      string buffer = getRawResult("/locations.json", "location=" + location + "&limit=" + limit, false);
-      return JArray.Parse(buffer);
-    }
-  }
-
-  public class BingSearchResultsClient : SerpApiClient
-  {
-    public BingSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.BING_ENGINE) { }
-  }
-
-  public class BaiduSearchResultsClient : SerpApiClient
-  {
-    public BaiduSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.BAIDU_ENGINE) { }
-  }
-
-  public class YahooSearchResultsClient : SerpApiClient
-  {
-    public YahooSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.YAHOO_ENGINE) { }
-  }
 }
