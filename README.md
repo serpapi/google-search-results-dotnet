@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/serpapi/google-search-results-dotnet.svg?branch=master)](https://travis-ci.org/serpapi/google-search-results-dotnet)
 [![NuGet version](https://badge.fury.io/nu/google-search-results-dotnet.svg)](https://badge.fury.io/nu/google-search-results-dotnet)
 
-This Dotnet package is meant to scrape and parse Google, Bing, Baidu, Yandex, Yahoo, Ebay results using [SerpApi](https://serpapi.com).
+This Dotnet package is meant to scrape and parse results from Google, Bing, Baidu, Yandex, Yahoo, Ebay and more using [SerpApi](https://serpapi.com).
 
 This extension is in development. But the code can be re-use for production because the API is already stable.
 
@@ -167,9 +167,4 @@ https://github.com/serpapi/google-search-results-dotnet/tree/master/test
 
 TODO
 ---
- * [x] Add test
- * [x] Implement all 4 API
- * [x] Enable CI integration
- * [x] Publish package
- * [x] Improve documentation
  * [ ] Add advanced examples like: https://github.com/serpapi/google-search-results-ruby (wait for user feedback)
