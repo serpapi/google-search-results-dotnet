@@ -11,7 +11,7 @@
     <PackageLicenseFile>MIT-LICENSE.txt</PackageLicenseFile>
     <PackageReleaseNotes>README.md</PackageReleaseNotes>
     <Title>Google-Search-Results</Title>
-    <PackageDescription>Search Results via SERP API. Hash, JSON, and HTML format supported for Google, Bing, Baidu, Google Product and more...</PackageDescription>
+    <PackageDescription>Search Results via SERP API. Hash, JSON, and HTML format supported for Google, Bing, Baidu, Yandex, Ebay, Google Product and more...</PackageDescription>
     <PackageTags>Search,Engine,Google,Scraping,Scrape,Crawl,Baidu,Bing</PackageTags>
     <Copyright>SerpApi LLC 2019-2020</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
