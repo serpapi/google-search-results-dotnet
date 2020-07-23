@@ -10,8 +10,8 @@ using System.Text.RegularExpressions;
  */
 namespace SerpApi
 {
-  public class YahooSearchResultsClient : SerpApiClient
+  public class YahooSearch : SerpApiSearch
   {
-    public YahooSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.YAHOO_ENGINE) { }
+    public YahooSearch(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiSearch.YAHOO_ENGINE) { }
   }
 }

@@ -10,8 +10,8 @@ using System.Text.RegularExpressions;
  */
 namespace SerpApi
 {
-  public class BingSearchResultsClient : SerpApiClient
+  public class YandexSearch : SerpApiSearch
   {
-    public BingSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.BING_ENGINE) { }
+    public YandexSearch(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiSearch.YANDEX_ENGINE) { }
   }
 }

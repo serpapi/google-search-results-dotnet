@@ -8,28 +8,27 @@ using System.Collections.Generic;
 namespace SerpApi.Test
 {
   [TestClass]
-  public class BingSearchResultsClientTest
+  public class YandexSearchTest
   {
-    private BingSearchResultsClient client;
+    private YandexSearch search;
     private String apiKey;
 
     private Hashtable ht;
 
-    public BingSearchResultsClientTest()
+    public YandexSearchTest()
     {
-      apiKey = Environment.GetEnvironmentVariable("API_KEY");
+      apiKey = Environment.GetEnvironmentVariable("API_KEY"); 
 
-      // Localized search for Coffee shop in Austin Texas
-      ht = new Hashtable();
-      ht.Add("q", "Coffee");
+      // search about coffee on Yandex
+      parameter = new Hashtable();
+      parameter.Add("q", "Coffee");
     }
 
     [TestMethod]
     public void TestGetJson()
     {
-      client = new BingSearchResultsClient(ht, apiKey);
-      JObject data = client.GetJson();
-
+      search = new YandexSearch(parameter, apiKey);
+      JObject data = search.GetJson();
       Assert.AreEqual(data["search_metadata"]["status"], "Success");
 
       JArray coffeeShops = (JArray)data["organic_results"];

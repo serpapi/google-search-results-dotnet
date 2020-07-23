@@ -8,32 +8,31 @@ using System.Collections.Generic;
 namespace SerpApi.Test
 {
   [TestClass]
-  public class BaiduSearchResultsClientTest
+  public class YahooSearchTest
   {
-    private BaiduSearchResultsClient client;
+    private YahooSearch search;
     private String apiKey;
 
     private Hashtable ht;
 
-    public BaiduSearchResultsClientTest()
+    public YahooSearchTest()
     {
       apiKey = Environment.GetEnvironmentVariable("API_KEY");
-
-      // Localized search for Coffee shop in Austin Texas
-      ht = new Hashtable();
-      ht.Add("q", "Coffee");
+      parameter = new Hashtable();
+      parameter.Add("q", "Coffee");
     }
 
     [TestMethod]
     public void TestGetJson()
     {
-      client = new BaiduSearchResultsClient(ht, apiKey);
-      JObject data = client.GetJson();
-
+      search = new YahooSearch(parameter, apiKey);
+      JObject data = search.GetJson();
       Assert.AreEqual(data["search_metadata"]["status"], "Success");
 
+      // access organic results
       JArray coffeeShops = (JArray)data["organic_results"];
       Assert.IsNotNull(coffeeShops);
+      // print the name of all coffee shop
       foreach (JObject coffeeShop in coffeeShops)
       {
         Console.WriteLine("Found: " + coffeeShop["title"]);

@@ -10,8 +10,8 @@ using System.Text.RegularExpressions;
  */
 namespace SerpApi
 {
-  public class BaiduSearchResultsClient : SerpApiClient
+  public class BaiduSearch : SerpApiSearch
   {
-    public BaiduSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.BAIDU_ENGINE) { }
+    public BaiduSearch(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiSearch.BAIDU_ENGINE) { }
   }
 }

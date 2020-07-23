@@ -31,19 +31,18 @@ namespace Google
 
       try
       {
-        GoogleSearchResultsClient client = new GoogleSearchResultsClient(ht, apiKey);
-
+        GoogleSearch search = new GoogleSearch(ht, apiKey);
         Console.WriteLine("Get location matching: Austin");
-        JArray locations = client.GetLocation("Austin,TX", 3);
+        JArray locations = search.GetLocation("Austin,TX", 3);
         foreach (JObject location in locations)
         {
           Console.WriteLine(location);
         }
 
         Console.WriteLine("Search coffee in Austin, Texas on Google [1 credit]");
-        JObject data = client.GetJson();
+        JObject data = search.GetJson();
         Console.WriteLine("local coffee shop");
-        JArray coffeeShops = (JArray)data["local_results"];
+        JArray coffeeShops = (JArray)data["organic_results"];
         foreach (JObject coffeeShop in coffeeShops)
         {
           Console.WriteLine("Found: " + coffeeShop["title"]);
@@ -57,7 +56,7 @@ namespace Google
 
         string id = (string)((JObject)data["search_metadata"])["id"];
         Console.WriteLine("Search from the archive: " + id + ". [0 credit]");
-        JObject archivedSearch = client.GetSearchArchiveJson(id);
+        JObject archivedSearch = search.GetSearchArchiveJson(id);
         foreach (JObject coffeeShop in (JArray)archivedSearch["organic_results"])
         {
           Console.WriteLine("Found: " + coffeeShop["title"]);
@@ -65,7 +64,7 @@ namespace Google
 
         //  Get account information
         Console.WriteLine("Account information: [0 credit]");
-        JObject account = client.GetAccount();
+        JObject account = search.GetAccount();
         Dictionary<string, string> dictObj = account.ToObject<Dictionary<string, string>>();
         foreach (string key in dictObj.Keys)
         {
@@ -81,9 +80,8 @@ namespace Google
         // this_month_usage = 0
         // this_hour_searches = 1
         // last_hour_searches = 0
-
       }
-      catch (SerpApiClientException ex)
+      catch (SerpApiSearchException ex)
       {
         Console.WriteLine("Exception:");
         Console.WriteLine(ex.ToString());

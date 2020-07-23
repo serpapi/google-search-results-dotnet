@@ -31,12 +31,11 @@ namespace Bing
 
       try
       {
-        BingSearchResultsClient client = new BingSearchResultsClient(ht, apiKey);
-
+        BingSearch search = new BingSearch(ht, apiKey);
         Console.WriteLine("Search coffee in Austin, Texas on Google [1 credit]");
-        JObject data = client.GetJson();
+        JObject data = search.GetJson();
         Console.WriteLine("local coffee shop");
-        JArray coffeeShops = (JArray)data["local_results"];
+        JArray coffeeShops = (JArray)data["organic_results"];
         foreach (JObject coffeeShop in coffeeShops)
         {
           Console.WriteLine("Found: " + coffeeShop["title"]);
@@ -50,7 +49,7 @@ namespace Bing
 
         string id = (string)((JObject)data["search_metadata"])["id"];
         Console.WriteLine("Search from the archive: " + id + ". [0 credit]");
-        JObject archivedSearch = client.GetSearchArchiveJson(id);
+        JObject archivedSearch = search.GetSearchArchiveJson(id);
         foreach (JObject coffeeShop in (JArray)archivedSearch["organic_results"])
         {
           Console.WriteLine("Found: " + coffeeShop["title"]);
@@ -58,7 +57,7 @@ namespace Bing
 
         //  Get account information
         Console.WriteLine("Account information: [0 credit]");
-        JObject account = client.GetAccount();
+        JObject account = search.GetAccount();
         Dictionary<string, string> dictObj = account.ToObject<Dictionary<string, string>>();
         foreach (string key in dictObj.Keys)
         {
@@ -76,7 +75,7 @@ namespace Bing
         // last_hour_searches = 0
 
       }
-      catch (SerpApiClientException ex)
+      catch (SerpApiSearchException ex)
       {
         Console.WriteLine("Exception:");
         Console.WriteLine(ex.ToString());

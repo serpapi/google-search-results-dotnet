@@ -8,18 +8,18 @@ using System.Collections.Generic;
 namespace SerpApi.Test
 {
   [TestClass]
-  public class YahooSearchResultsClientTest
+  public class BingSearchTest
   {
-    private YahooSearchResultsClient client;
+    private BingSearch search;
     private String apiKey;
 
     private Hashtable ht;
 
-    public YahooSearchResultsClientTest()
+    public BingSearchTest()
     {
       apiKey = Environment.GetEnvironmentVariable("API_KEY");
 
-      // Localized search for Coffee shop in Austin Texas
+      // search about coffee on bing
       ht = new Hashtable();
       ht.Add("q", "Coffee");
     }
@@ -27,8 +27,8 @@ namespace SerpApi.Test
     [TestMethod]
     public void TestGetJson()
     {
-      client = new YahooSearchResultsClient(ht, apiKey);
-      JObject data = client.GetJson();
+      search = new BingSearch(ht, apiKey);
+      JObject data = search.GetJson();
 
       Assert.AreEqual(data["search_metadata"]["status"], "Success");
 

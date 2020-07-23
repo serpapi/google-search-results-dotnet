@@ -23,34 +23,31 @@ namespace Baidu
       }
 
       // Localized search for Coffee shop in Austin Texas
-      Hashtable ht = new Hashtable();
-      ht.Add("location", "Austin, Texas, United States");
-      ht.Add("q", "Coffee");
-      ht.Add("hl", "en");
-      ht.Add("google_domain", "google.com");
+      Hashtable parameter = new Hashtable();
+      parameter.Add("q", "Coffee");
 
       try
       {
-        BaiduSearchResultsClient client = new BaiduSearchResultsClient(ht, apiKey);
-
+        BaiduSearch search = new BaiduSearch(parameter, apiKey);
         Console.WriteLine("Search coffee in Austin, Texas on Google [1 credit]");
-        JObject data = client.GetJson();
+        JObject data = search.GetJson();
         Console.WriteLine("local coffee shop");
-        JArray coffeeShops = (JArray)data["local_results"];
-        foreach (JObject coffeeShop in coffeeShops)
-        {
-          Console.WriteLine("Found: " + coffeeShop["title"]);
-        }
-        Console.WriteLine("organic result coffee shop");
-        coffeeShops = (JArray)data["organic_results"];
-        foreach (JObject coffeeShop in coffeeShops)
-        {
-          Console.WriteLine("Found: " + coffeeShop["title"]);
-        }
+        JObject coffeeShops = (JArray)data["organic_results"];
+        Console.Writeln(coffeeShops)
+        // foreach (JObject coffeeShop in coffeeShops)
+        // {
+        //   Console.WriteLine("Found: " + coffeeShop["title"]);
+        // }
+        // Console.WriteLine("organic result coffee shop");
+        // coffeeShops = (JArray)data["organic_results"];
+        // foreach (JObject coffeeShop in coffeeShops)
+        // {
+        //   Console.WriteLine("Found: " + coffeeShop["title"]);
+        // }
 
         string id = (string)((JObject)data["search_metadata"])["id"];
         Console.WriteLine("Search from the archive: " + id + ". [0 credit]");
-        JObject archivedSearch = client.GetSearchArchiveJson(id);
+        JObject archivedSearch = search.GetSearchArchiveJson(id);
         foreach (JObject coffeeShop in (JArray)archivedSearch["organic_results"])
         {
           Console.WriteLine("Found: " + coffeeShop["title"]);
@@ -58,7 +55,7 @@ namespace Baidu
 
         //  Get account information
         Console.WriteLine("Account information: [0 credit]");
-        JObject account = client.GetAccount();
+        JObject account = search.GetAccount();
         Dictionary<string, string> dictObj = account.ToObject<Dictionary<string, string>>();
         foreach (string key in dictObj.Keys)
         {
@@ -76,7 +73,7 @@ namespace Baidu
         // last_hour_searches = 0
 
       }
-      catch (SerpApiClientException ex)
+      catch (SerpApiSearchException ex)
       {
         Console.WriteLine("Exception:");
         Console.WriteLine(ex.ToString());

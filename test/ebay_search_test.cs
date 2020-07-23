@@ -8,18 +8,18 @@ using System.Collections.Generic;
 namespace SerpApi.Test
 {
   [TestClass]
-  public class EbaySearchResultsClientTest
+  public class EbaySearchTest
   {
-    private EbaySearchResultsClient client;
+    private EbaySearch search;
     private String apiKey;
 
     private Hashtable ht;
 
-    public EbaySearchResultsClientTest()
+    public EbaySearchTest()
     {
       apiKey = Environment.GetEnvironmentVariable("API_KEY");
 
-      // Localized search for Coffee shop in Austin Texas
+      // search about coffee on ebay
       ht = new Hashtable();
       ht.Add("q", "Coffee");
     }
@@ -27,8 +27,8 @@ namespace SerpApi.Test
     [TestMethod]
     public void TestGetJson()
     {
-      client = new EbaySearchResultsClient(ht, apiKey);
-      JObject data = client.GetJson();
+      search = new EbaySearch(ht, apiKey);
+      JObject data = search.GetJson();
 
       Assert.AreEqual(data["search_metadata"]["status"], "Success");
 

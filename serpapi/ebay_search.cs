@@ -10,8 +10,8 @@ using System.Text.RegularExpressions;
  */
 namespace SerpApi
 {
-  public class EbaySearchResultsClient : SerpApiClient
+  public class EbaySearch : SerpApiSearch
   {
-    public EbaySearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.EBAY_ENGINE) { }
+    public EbaySearch(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiSearch.EBAY_ENGINE) { }
   }
 }

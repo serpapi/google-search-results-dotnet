@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
  */
 namespace SerpApi
 {
-  public class SerpApiClient
+  public class SerpApiSearch
   {
     public const string GOOGLE_ENGINE = "google";
     public const string BAIDU_ENGINE = "baidu";
@@ -33,15 +33,15 @@ namespace SerpApi
     // search engine: google (default) or bing
     private string engineContext;
 
-    // Core HTTP client
-    public HttpClient client;
+    // Core HTTP search
+    public HttpClient search;
 
-    public SerpApiClient(string apiKey, string engine = GOOGLE_ENGINE)
+    public SerpApiSearch(string apiKey, string engine = GOOGLE_ENGINE)
     {
       initialize(new Hashtable(), apiKey, engine);
     }
 
-    public SerpApiClient(Hashtable parameter, string apiKey, string engine = GOOGLE_ENGINE)
+    public SerpApiSearch(Hashtable parameter, string apiKey, string engine = GOOGLE_ENGINE)
     {
       initialize(parameter, apiKey, engine);
     }
@@ -58,7 +58,7 @@ namespace SerpApi
       engineContext = engine;
 
       // initialize clean
-      this.client = new HttpClient();
+      this.search = new HttpClient();
 
       // set default timeout to 60s
       this.setTimeoutSeconds(60);
@@ -69,7 +69,7 @@ namespace SerpApi
      */
     public void setTimeoutSeconds(int seconds)
     {
-      this.client.Timeout = TimeSpan.FromSeconds(seconds);
+      this.search.Timeout = TimeSpan.FromSeconds(seconds);
     }
 
     /***
@@ -122,7 +122,7 @@ namespace SerpApi
       // report error if something went wrong
       if (data.ContainsKey("error"))
       {
-        throw new SerpApiClientException(data.GetValue("error").ToString());
+        throw new SerpApiSearchException(data.GetValue("error").ToString());
       }
       return data;
     }
@@ -148,11 +148,11 @@ namespace SerpApi
     }
 
     /***
-     * Close socket connection associated to HTTP client
+     * Close socket connection associated to HTTP search
      */
     public void Close()
     {
-      this.client.Dispose();
+      this.search.Dispose();
     }
 
     private async Task<string> Query(string uri, string parameter, bool jsonEnabled)
@@ -168,7 +168,7 @@ namespace SerpApi
 
       try
       {
-        HttpResponseMessage response = await this.client.GetAsync(url);
+        HttpResponseMessage response = await this.search.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
         if (jsonEnabled)
         {
@@ -184,20 +184,20 @@ namespace SerpApi
         }
         else
         {
-          throw new SerpApiClientException("Http request fail: " + content);
+          throw new SerpApiSearchException("Http request fail: " + content);
         }
       }
       catch (Exception ex)
       {
-        throw new SerpApiClientException(ex.ToString());
+        throw new SerpApiSearchException(ex.ToString());
       }
-      throw new SerpApiClientException("Oops something went very wrong");
+      throw new SerpApiSearchException("Oops something went very wrong");
     }
   }
 
-  public class SerpApiClientException : Exception
+  public class SerpApiSearchException : Exception
   {
-    public SerpApiClientException(string message) : base(message) { }
+    public SerpApiSearchException(string message) : base(message) { }
   }
 
 }

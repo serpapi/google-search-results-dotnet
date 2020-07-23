@@ -10,12 +10,12 @@ using System.Text.RegularExpressions;
  */
 namespace SerpApi
 {
-  public class GoogleSearchResultsClient : SerpApiClient
+  public class GoogleSearch : SerpApiSearch
   {
 
-    public GoogleSearchResultsClient(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiClient.GOOGLE_ENGINE) { }
+    public GoogleSearch(Hashtable parameter, String apiKey) : base(parameter, apiKey, SerpApiSearch.GOOGLE_ENGINE) { }
 
-    public GoogleSearchResultsClient(String apiKey) : base(new Hashtable(), apiKey, SerpApiClient.GOOGLE_ENGINE) { }
+    public GoogleSearch(String apiKey) : base(new Hashtable(), apiKey, SerpApiSearch.GOOGLE_ENGINE) { }
 
     /*
      * Get list of location using Location API

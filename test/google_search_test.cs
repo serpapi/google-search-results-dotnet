@@ -10,7 +10,7 @@ namespace SerpApi.Test
   [TestClass]
   public class GoogleSearchResultTest
   {
-    private GoogleSearchResultsClient client;
+    private GoogleSearch search;
     private String apiKey;
 
     private Hashtable ht;
@@ -30,8 +30,8 @@ namespace SerpApi.Test
     [TestMethod]
     public void TestGetLocation()
     {
-      client = new GoogleSearchResultsClient(apiKey);
-      JArray locations = client.GetLocation("Austin,TX", 3);
+      search = new GoogleSearch(apiKey);
+      JArray locations = search.GetLocation("Austin,TX", 3);
       int counter = 0;
       foreach (JObject location in locations)
       {
@@ -50,8 +50,8 @@ namespace SerpApi.Test
     [TestMethod]
     public void TestGetJson()
     {
-      client = new GoogleSearchResultsClient(ht, apiKey);
-      JObject data = client.GetJson();
+      search = new GoogleSearch(ht, apiKey);
+      JObject data = search.GetJson();
       JArray coffeeShops = (JArray)data["local_results"]["places"];
       int counter = 0;
       foreach (JObject coffeeShop in coffeeShops)
@@ -70,7 +70,7 @@ namespace SerpApi.Test
       }
 
       // Release socket connection
-      client.Close();
+      search.Close();
     }
 
     [TestMethod]
@@ -82,10 +82,10 @@ namespace SerpApi.Test
         return;
       }
 
-      client = new GoogleSearchResultsClient(ht, apiKey);
-      JObject data = client.GetJson();
+      search = new GoogleSearch(ht, apiKey);
+      JObject data = search.GetJson();
       string id = (string)((JObject)data["search_metadata"])["id"];
-      JObject archivedSearch = client.GetSearchArchiveJson(id);
+      JObject archivedSearch = search.GetSearchArchiveJson(id);
       int expected = GetSize((JArray)data["organic_results"]);
       int actual = GetSize((JArray)archivedSearch["organic_results"]);
       Assert.IsTrue(expected == actual);
@@ -98,7 +98,7 @@ namespace SerpApi.Test
       {
         return;
       }
-      JObject account = client.GetAccount();
+      JObject account = search.GetAccount();
       Dictionary<string, string> dict = account.ToObject<Dictionary<string, string>>();
       Assert.IsNotNull(dict["account_id"]);
       Assert.IsNotNull(dict["plan_id"]);
@@ -108,14 +108,14 @@ namespace SerpApi.Test
     [TestMethod]
     public void TestGetHtml()
     {
-      client = new GoogleSearchResultsClient(ht, apiKey);
-      string htmlContent = client.GetHtml();
+      search = new GoogleSearch(ht, apiKey);
+      string htmlContent = search.GetHtml();
       Assert.IsNotNull(htmlContent);
       //Console.WriteLine(htmlContent);
       Assert.IsTrue(htmlContent.Contains("</body>"));
 
       // Release socket connection
-      client.Close();
+      search.Close();
     }
 
     private int GetSize(JArray array)
