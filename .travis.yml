@@ -10,3 +10,4 @@ install:
 script:
   - dotnet build
   - dotnet test
+  - make oobt example=google
