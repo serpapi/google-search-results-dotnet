@@ -13,7 +13,7 @@ namespace SerpApi.Test
     private YandexSearch search;
     private String apiKey;
 
-    private Hashtable ht;
+    private Hashtable parameter;
 
     public YandexSearchTest()
     {

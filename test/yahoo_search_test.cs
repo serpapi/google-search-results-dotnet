@@ -13,7 +13,7 @@ namespace SerpApi.Test
     private YahooSearch search;
     private String apiKey;
 
-    private Hashtable ht;
+    private Hashtable parameter;
 
     public YahooSearchTest()
     {
