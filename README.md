@@ -5,7 +5,7 @@
 
 This Dotnet package is meant to scrape and parse results from Google, Bing, Baidu, Yandex, Yahoo, Ebay and more using [SerpApi](https://serpapi.com).
 
-This extension is in development. But the code can be re-use for production because the API is already stable.
+Master is currently tracking the version 2.0 of this API which has been release yet. See other branch for released version.
 
 The following services are provided:
  * [Search API](https://serpapi.com/search-api) 
@@ -14,7 +14,6 @@ The following services are provided:
  * [Account API](https://serpapi.com/account-api) - not implemented
 
 SerpApi provides a [script builder](https://serpapi.com/demo) to get you started quickly.
-
 
 ## Installation
 
