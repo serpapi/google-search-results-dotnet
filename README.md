@@ -1,6 +1,6 @@
-# Search Results in Dotnet / CSharp / .Net
+# Search Results in Dotnet / CSharp / .Net powered by SerpApi.com
 
-[![Build Status](https://travis-ci.org/serpapi/google-search-results-dotnet.svg?branch=master)](https://travis-ci.org/serpapi/google-search-results-dotnet)
+![dotnet 2.2 - build / test](https://github.com/serpapi/google-search-results-dotnet/workflows/dotnet%202.2%20-%20build%20/%20test/badge.svg)
 [![NuGet version](https://badge.fury.io/nu/google-search-results-dotnet.svg)](https://badge.fury.io/nu/google-search-results-dotnet)
 
 This Dotnet package is meant to scrape and parse results from Google, Bing, Baidu, Yandex, Yahoo, Ebay and more using [SerpApi](https://serpapi.com).
