@@ -1,4 +1,4 @@
-name: dotnet core - build
+name: dotnet 2.2 - build / test
 
 on: [push]
 
