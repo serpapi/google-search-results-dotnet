@@ -11,7 +11,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.108
+    - name: Restore
+      run: dotnet restore
     - name: Build with dotnet
       run: dotnet build --configuration Release
     - name: Unit Tests
-      run: dotnet test
+      run: dotnet test test/ --configuration Release

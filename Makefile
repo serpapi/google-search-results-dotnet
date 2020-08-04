@@ -6,16 +6,19 @@ root=`pwd`
 example=google
 
 # all
-all: clean build test
+all: clean restore build test
 
 clean:
 	dotnet clean
 
+restore:
+	dotnet restore
+
 build:
-	dotnet build
+	dotnet build --configuration Release
 
 test:
-	dotnet test
+	dotnet test test/ --configuration Release
 
 run:
 	dotnet run
