@@ -1,11 +1,9 @@
 # Search Results in Dotnet / CSharp / .Net powered by SerpApi.com
 
-![dotnet 2.2 - build / test](https://github.com/serpapi/google-search-results-dotnet/workflows/dotnet%202.2%20-%20build%20/%20test/badge.svg)
+[![Test](https://github.com/serpapi/google-search-results-dotnet/workflows/dotnet%202.2%20-%20build%20/%20test/badge.svg)](https://github.com/serpapi/google-search-results-dotnet/actions)
 [![NuGet version](https://badge.fury.io/nu/google-search-results-dotnet.svg)](https://badge.fury.io/nu/google-search-results-dotnet)
 
-This Dotnet package is meant to scrape and parse results from Google, Bing, Baidu, Yandex, Yahoo, Ebay and more using [SerpApi](https://serpapi.com).
-
-Master is currently tracking the version 2.0 of this API which has been release yet. See other branch for released version.
+This Dotnet 3.1 package is meant to scrape and parse results from Google, Bing, Baidu, Yandex, Yahoo, Ebay and more using [SerpApi](https://serpapi.com).
 
 The following services are provided:
  * [Search API](https://serpapi.com/search-api) 
@@ -19,7 +17,7 @@ SerpApi provides a [script builder](https://serpapi.com/demo) to get you started
 
 To install the package.
 ```bash
-dotnet add package google-search-results-dotnet --version 2.0.0
+dotnet add package google-search-results-dotnet --version 2.0.1
 ```
 
 More commands available at https://www.nuget.org/packages/google-search-results-dotnet
@@ -176,6 +174,11 @@ The tests can be used as implementation examples.
 https://github.com/serpapi/google-search-results-dotnet/tree/master/test
 
 ## Changes log
+### 2.0.1 - bug fix
+ * Special characters encoding support.
+ * Allow to modified parameter using ```search.paramaterContext```
+ * Upgrade to 3.1 as validation environment.
+  
 ### 2.0
  * Reduce class name to <engine>Search 
 
