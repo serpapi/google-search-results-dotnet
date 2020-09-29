@@ -1,4 +1,4 @@
-name: dotnet 2.2 - build / test
+name: test
 
 on: [push]
 
@@ -10,7 +10,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.108
+        dotnet-version: '3.1.401'
     - name: Restore
       run: dotnet restore
     - name: Build with dotnet
