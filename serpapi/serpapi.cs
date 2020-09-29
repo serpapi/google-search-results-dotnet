@@ -27,6 +27,7 @@ namespace SerpApi
 
     // contextual parameter provided to SerpApi
     public Hashtable parameterContext;
+
     // secret api key
     private string apiKeyContext;
 
@@ -34,7 +35,7 @@ namespace SerpApi
     private string engineContext;
 
     // Core HTTP search
-    public HttpClient search;
+    public HttpClient client;
 
     public SerpApiSearch(string apiKey, string engine = GOOGLE_ENGINE)
     {
@@ -49,16 +50,16 @@ namespace SerpApi
     private void initialize(Hashtable parameter, string apiKey, string engine)
     {
       // assign query parameter
-      parameterContext = parameter;
+      this.parameterContext = parameter;
 
       // store ApiKey
-      apiKeyContext = apiKey;
+      this.apiKeyContext = apiKey;
 
       // set search engine
-      engineContext = engine;
+      this.engineContext = engine;
 
       // initialize clean
-      this.search = new HttpClient();
+      this.client = new HttpClient();
 
       // set default timeout to 60s
       this.setTimeoutSeconds(60);
@@ -69,7 +70,7 @@ namespace SerpApi
      */
     public void setTimeoutSeconds(int seconds)
     {
-      this.search.Timeout = TimeSpan.FromSeconds(seconds);
+      this.client.Timeout = TimeSpan.FromSeconds(seconds);
     }
 
     /***
@@ -77,7 +78,7 @@ namespace SerpApi
      */
     public JObject GetJson()
     {
-      return getJsonResult("/search.json", GetParameter(parameterContext));
+      return getJsonResult("/search.json", GetParameter(true));
     }
 
     /***
@@ -85,7 +86,7 @@ namespace SerpApi
      */
     public JObject GetSearchArchiveJson(string searchId)
     {
-      return getJsonResult("/searches/" + searchId + ".json", GetParameter(parameterContext));
+      return getJsonResult("/searches/" + searchId + ".json", GetParameter(true));
     }
 
     /***
@@ -93,7 +94,7 @@ namespace SerpApi
      */
     public string GetHtml()
     {
-      return getRawResult("/search", GetParameter(parameterContext), false);
+      return getRawResult("/search", GetParameter(false), false);
     }
 
     /***
@@ -101,13 +102,13 @@ namespace SerpApi
    */
     public JObject GetAccount()
     {
-      return getJsonResult("/account", GetParameter(parameterContext));
+      return getJsonResult("/account", GetParameter(true));
     }
 
     public string getRawResult(string uri, string parameter, bool jsonEnabled)
     {
       // run asynchonous http query (.net framework implementation)
-      Task<string> queryTask = Query(uri, parameter, jsonEnabled);
+      Task<string> queryTask = createQuery(uri, parameter, jsonEnabled);
       // block until http query is completed
       queryTask.ConfigureAwait(true);
       // parse result into json
@@ -116,9 +117,10 @@ namespace SerpApi
 
     public JObject getJsonResult(string uri, string parameter)
     {
+      // get json result
+      string buffer = getRawResult(uri, parameter, true);
       // parse json response (ignore http response status)
-      JObject data = JObject.Parse(getRawResult(uri, parameter, true));
-
+      JObject data = JObject.Parse(buffer);
       // report error if something went wrong
       if (data.ContainsKey("error"))
       {
@@ -127,24 +129,32 @@ namespace SerpApi
       return data;
     }
 
-    public string GetParameter(Hashtable ht)
+    // Convert parmaterContext into URL request.
+    // 
+    // note:
+    //  - C# URL encoding is pretty buggy and the API provides method which are not functional.
+    //  - System.Web.HttpUtility.UrlEncode breaks if apply the full URL
+    ///
+    public string GetParameter(bool jsonEnabled)
     {
       string s = "";
-      int i = 0;
-      foreach (string key in ht.Keys)
+      foreach (DictionaryEntry entry in this.parameterContext)
       {
-        if (i > 0)
+        if (s != "")
         {
           s += "&";
         }
-        s += key + "=" + ht[key];
-        i += 1;
+        // encode each value in case of special character
+        s += entry.Key + "=" + System.Web.HttpUtility.UrlEncode((string)entry.Value, System.Text.Encoding.UTF8);
       }
       if (apiKeyContext != null)
       {
         s += "&api_key=" + apiKeyContext;
       }
-      return System.Web.HttpUtility.UrlPathEncode(s);
+
+      // add 
+      s += "&output=" + (jsonEnabled ? JSON_FORMAT : HTML_FORMAT);
+      return s;
     }
 
     /***
@@ -152,31 +162,26 @@ namespace SerpApi
      */
     public void Close()
     {
-      this.search.Dispose();
+      this.client.Dispose();
     }
 
-    private async Task<string> Query(string uri, string parameter, bool jsonEnabled)
+    private async Task<string> createQuery(string uri, string parameter, bool jsonEnabled)
     {
       // build url
-      String url = HOST + uri;
-      if (parameter != null)
-      {
-        url += "?" + parameter;
-      }
-
-      url += "&output=" + (jsonEnabled ? JSON_FORMAT : HTML_FORMAT);
-
+      String url = HOST + uri + "?" + parameter;
+      // display url for debug: 
+      Console.WriteLine("url: " + url);
       try
       {
-        HttpResponseMessage response = await this.search.GetAsync(url);
+        HttpResponseMessage response = await this.client.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
+        // return raw JSON
         if (jsonEnabled)
         {
           response.Dispose();
           return content;
         }
-
-        // html response or other
+        // HTML response or other
         if (response.IsSuccessStatusCode)
         {
           response.Dispose();
@@ -184,11 +189,13 @@ namespace SerpApi
         }
         else
         {
+          response.Dispose();
           throw new SerpApiSearchException("Http request fail: " + content);
         }
       }
       catch (Exception ex)
       {
+        // handle HTTP issues
         throw new SerpApiSearchException(ex.ToString());
       }
       throw new SerpApiSearchException("Oops something went very wrong");

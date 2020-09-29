@@ -19,6 +19,7 @@ build:
 
 test:
 	dotnet test test/ --configuration Release
+#	dotnet test test/ --configuration Release --filter TestSearchModifiedSpecialCharacters  --logger "console;verbosity=detailed"
 
 run:
 	dotnet run
@@ -27,9 +28,12 @@ pack:
 	dotnet pack
 
 oobt: pack
+	$(MAKE) run_oobt example=google
+	$(MAKE) run_oobt example=bing
+
+run_oobt:
 	cd example/${example} ; \
-	dotnet add package \
-		--package-directory ${root}/${name} ${name} ; \
+	dotnet add package --package-directory ${root}/${name} ${name} ; \
 	dotnet build ; \
 	dotnet run
 

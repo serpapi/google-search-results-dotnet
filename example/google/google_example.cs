@@ -24,20 +24,21 @@ namespace Google
 
       // Localized search for Coffee shop in Austin Texas
       Hashtable ht = new Hashtable();
-      ht.Add("location", "Austin, Texas, United States");
       ht.Add("q", "Coffee");
       ht.Add("hl", "en");
       ht.Add("google_domain", "google.com");
 
+      GoogleSearch search = new GoogleSearch(ht, apiKey);
       try
       {
-        GoogleSearch search = new GoogleSearch(ht, apiKey);
         Console.WriteLine("Get location matching: Austin");
         JArray locations = search.GetLocation("Austin,TX", 3);
         foreach (JObject location in locations)
         {
           Console.WriteLine(location);
         }
+        // set location
+        search.parameterContext.Add("location", (string)locations[0]["canonical_name"]);
 
         Console.WriteLine("Search coffee in Austin, Texas on Google [1 credit]");
         JObject data = search.GetJson();
@@ -86,6 +87,8 @@ namespace Google
         Console.WriteLine("Exception:");
         Console.WriteLine(ex.ToString());
       }
+      // Close socket
+      search.Close();
     }
   }
 }

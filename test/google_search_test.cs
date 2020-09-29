@@ -113,7 +113,6 @@ namespace SerpApi.Test
       Assert.IsNotNull(htmlContent);
       //Console.WriteLine(htmlContent);
       Assert.IsTrue(htmlContent.Contains("</body>"));
-
       // Release socket connection
       search.Close();
     }

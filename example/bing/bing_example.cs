@@ -29,9 +29,9 @@ namespace Bing
       ht.Add("hl", "en");
       ht.Add("google_domain", "google.com");
 
+      BingSearch search = new BingSearch(ht, apiKey);
       try
       {
-        BingSearch search = new BingSearch(ht, apiKey);
         Console.WriteLine("Search coffee in Austin, Texas on Google [1 credit]");
         JObject data = search.GetJson();
         Console.WriteLine("local coffee shop");
@@ -80,6 +80,7 @@ namespace Bing
         Console.WriteLine("Exception:");
         Console.WriteLine(ex.ToString());
       }
+      search.Close();
     }
   }
 }
