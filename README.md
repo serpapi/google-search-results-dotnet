@@ -1,15 +1,15 @@
 # Search Results in Dotnet / CSharp / .Net powered by SerpApi.com
 
-[![Test](https://github.com/serpapi/google-search-results-dotnet/workflows/dotnet%202.2%20-%20build%20/%20test/badge.svg)](https://github.com/serpapi/google-search-results-dotnet/actions)
+[![test](https://github.com/serpapi/google-search-results-dotnet/workflows/test/badge.svg)](https://github.com/serpapi/google-search-results-dotnet/actions)
 [![NuGet version](https://badge.fury.io/nu/google-search-results-dotnet.svg)](https://badge.fury.io/nu/google-search-results-dotnet)
 
 This Dotnet 3.1 package is meant to scrape and parse results from Google, Bing, Baidu, Yandex, Yahoo, Ebay and more using [SerpApi](https://serpapi.com).
 
 The following services are provided:
  * [Search API](https://serpapi.com/search-api) 
- * [Location API](https://serpapi.com/locations-api) - not implemented
- * [Search Archive API](https://serpapi.com/search-archive-api)  - not implemented
- * [Account API](https://serpapi.com/account-api) - not implemented
+ * [Location API](https://serpapi.com/locations-api)
+ * [Search Archive API](https://serpapi.com/search-archive-api)
+ * [Account API](https://serpapi.com/account-api)
 
 SerpApi provides a [script builder](https://serpapi.com/demo) to get you started quickly.
 
@@ -105,7 +105,10 @@ namespace Baidu
 This example displays the top 3 coffee shop in Austin Texas found in the local_results.
 Then it displays all 10 coffee shop found in the regular google search named: organic_results.
 
-## Google search engine
+## Search API
+[Back-end documentation](https://serpapi.com/search-api) 
+
+### Google search engine
 ```csharp
 GoogleSearch search = GoogleSearch(parameter, apiKey);
 JObject data = search.GetJson();
@@ -114,7 +117,7 @@ JObject data = search.GetJson();
 test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/google_search_test.cs  
 doc: https://serpapi.com/search-api
 
-## Bing search engine
+### Bing search engine
 ```csharp
 BingSearch search = BingSearch(parameter, apiKey);
 JObject data = search.GetJson();
@@ -126,7 +129,7 @@ test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/b
 doc: https://serpapi.com/bing-search-api
 
 
-## Baidu search engine
+### Baidu search engine
 ```csharp
 BaiduSearch search = BaiduSearch(parameter, apiKey);
 JObject data = search.GetJson();
@@ -137,7 +140,7 @@ https://github.com/serpapi/google-search-results-dotnet/blob/master/example/baid
 test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/baidu_search_test.cs  
 doc: https://serpapi.com/baidy-search-api
 
-## Yahoo search engine
+### Yahoo search engine
 ```csharp
 YahooSearch search = YahooSearch(parameter, apiKey);
 JObject data = search.GetJson();
@@ -145,7 +148,7 @@ JObject data = search.GetJson();
 test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/yahoo_search_test.cs  
 doc: https://serpapi.com/yahoo-search-api  
 
-## Yandex search engine
+### Yandex search engine
 ```csharp
 YandexSearch search = YandexSearch(parameter, apiKey);
 JObject data = search.GetJson();
@@ -153,7 +156,7 @@ JObject data = search.GetJson();
 test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/yandex_search_test.cs  
 doc: https://serpapi.com/yandex-search-api 
 
-## Ebay search engine
+### Ebay search engine
 ```csharp
 EbaySearch search = EbaySearch(parameter, apiKey);
 JObject data = search.GetJson();
@@ -161,12 +164,51 @@ JObject data = search.GetJson();
 test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/ebay_search_test.cs  
 doc: https://serpapi.com/ebay-search-api 
 
-## Generic search for other search engine
+### Generic search for other search engine
 Here an example using walmart as search engine.
 ```csharp
 SerpApiSearch search = SerpApiSearch(parameter, apiKey, "walmart")
 ```
-see the list of engine supported from the [documentation](https://serpapi.com/search-api).
+see: the list of engine supported from the [documentation](https://serpapi.com/search-api).
+
+## Location API
+
+```csharp
+Hashtable ht = new Hashtable();
+GoogleSearch search = new GoogleSearch(ht, apiKey);
+JArray locations = search.GetLocation("Austin,TX", 3);
+foreach (JObject location in locations)
+{
+  Console.WriteLine(location);
+}
+```
+
+## Search Archive API
+
+```csharp
+Hashtable ht = new Hashtable();
+ht.Add("q", "Coffee");
+GoogleSearch search = new GoogleSearch(ht, apiKey);
+// search [1 credit]
+JObject data = search.GetJson();
+// get unique search id
+string id = (string)((JObject)data["search_metadata"])["id"];
+// search from the archive using id [0 credit]
+JObject archivedSearch = search.GetSearchArchiveJson(id);
+```
+
+## Get Account API
+
+```csharp
+Hashtable ht = new Hashtable();
+GoogleSearch search = new GoogleSearch(ht, apiKey);
+JObject account = search.GetAccount();
+Dictionary<string, string> dictObj = account.ToObject<Dictionary<string, string>>();
+foreach (string key in dictObj.Keys)
+{
+  Console.WriteLine(key + " = " + dictObj[key]);
+}
+```
 
 ## Test
 This library is fully unit tested.  
@@ -177,7 +219,7 @@ https://github.com/serpapi/google-search-results-dotnet/tree/master/test
 ### 2.0.1 - bug fix
  * Special characters encoding support.
  * Allow to modified parameter using ```search.paramaterContext```
- * Upgrade to 3.1 as validation environment.
+ * Upgrade to netcoreapp3.1
   
 ### 2.0
  * Reduce class name to <engine>Search 
@@ -185,20 +227,20 @@ https://github.com/serpapi/google-search-results-dotnet/tree/master/test
 ### 1.5
  * Add support for Yandex, Ebay, Yahoo
   
-#### 1.4
+### 1.4
  * Bug fix: Release Socket connection when requests finish. 
    Because Dotnet does not release the ressource when the HTTP Client is closed.
  * Add Yahoo support: YahooSearch
  * Create only one search for all the connection
   
-#### 1.3 
+### 1.3 
  * Add bing and baidu support
  * Allow custom HTTP timeout using: setTimeoutSeconds
  * Fix exception class visibility and renamed to SerpApiSearchException
 
-#### 1.2
+### 1.2
  * Initial release matching SerpApi 1.2 internal API
 
 TODO
 ---
- * [ ] Add advanced examples like: https://github.com/serpapi/google-search-results-ruby (wait for user feedback)
+ * [ ] Add example for highly concurrent requests.

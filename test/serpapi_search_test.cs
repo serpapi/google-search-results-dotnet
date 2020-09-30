@@ -70,7 +70,6 @@ namespace SerpApi.Test
       // h.Add("num", "10");
 
       SerpApiSearch search = new SerpApiSearch(h, apiKey);
-
       JObject data = search.GetJson();
       JArray results = (JArray)data["organic_results"];
       dynamic first = results[0];

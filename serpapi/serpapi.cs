@@ -170,7 +170,7 @@ namespace SerpApi
       // build url
       String url = HOST + uri + "?" + parameter;
       // display url for debug: 
-      Console.WriteLine("url: " + url);
+      //Console.WriteLine("url: " + url);
       try
       {
         HttpResponseMessage response = await this.client.GetAsync(url);
