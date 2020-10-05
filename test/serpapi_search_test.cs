@@ -10,27 +10,27 @@ namespace SerpApi.Test
   [TestClass]
   public class SerpApiSearchTest
   {
-    [TestMethod]
-    public void TestSearpApiSearchGetJson()
-    {
-      String apiKey = Environment.GetEnvironmentVariable("API_KEY");
-      Hashtable ht = new Hashtable();
-      ht.Add("q", "Coffee");
-      ht.Add("location", "Austin, Texas, United States");
-      ht.Add("hl", "en");
-      ht.Add("tbs", "qdr:d");
-      ht.Add("num", "10");
-      ht.Add("google_domain", "google.com");
-      ht.Add("engine", "google");
+    // [TestMethod]
+    // public void TestSearpApiSearchGetJson()
+    // {
+    //   String apiKey = Environment.GetEnvironmentVariable("API_KEY");
+    //   Hashtable ht = new Hashtable();
+    //   ht.Add("q", "Coffee");
+    //   ht.Add("location", "Austin, Texas, United States");
+    //   ht.Add("hl", "en");
+    //   ht.Add("tbs", "qdr:d");
+    //   ht.Add("num", "10");
+    //   ht.Add("google_domain", "google.com");
+    //   ht.Add("engine", "google");
 
-      SerpApiSearch search = new SerpApiSearch(ht, apiKey);
-      JObject data = search.GetJson();
-      JArray coffeeShops = (JArray)data["organic_results"];
-      Assert.IsNotNull(coffeeShops);
-      Assert.IsTrue(coffeeShops.Count > 5);
-      // Release socket connection
-      search.Close();
-    }
+    //   SerpApiSearch search = new SerpApiSearch(ht, apiKey);
+    //   JObject data = search.GetJson();
+    //   JArray coffeeShops = (JArray)data["organic_results"];
+    //   Assert.IsNotNull(coffeeShops);
+    //   Assert.IsTrue(coffeeShops.Count > 5);
+    //   // Release socket connection
+    //   search.Close();
+    // }
 
     [TestMethod]
     public void TestSpecialCharactersEncoding()
