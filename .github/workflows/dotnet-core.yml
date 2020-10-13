@@ -17,3 +17,5 @@ jobs:
       run: dotnet build --configuration Release
     - name: Unit Tests
       run: dotnet test test/ --configuration Release
+      env:
+        API_KEY: ${{secrets.API_KEY}}
