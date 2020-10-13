@@ -11,11 +11,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.401'
-    - name: Restore
-      run: dotnet restore
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
-    - name: Unit Tests
-      run: dotnet test test/ --configuration Release
+    - name: all
+      run: make all
       env:
         API_KEY: ${{secrets.API_KEY}}
