@@ -30,6 +30,8 @@ namespace SerpApi.Test
       search = new EbaySearch(ht, apiKey);
       JObject data = search.GetJson();
 
+      Assert.IsTrue(search.IsApiKeySet());
+
       Assert.AreEqual(data["search_metadata"]["status"], "Success");
 
       JArray coffeeShops = (JArray)data["organic_results"];

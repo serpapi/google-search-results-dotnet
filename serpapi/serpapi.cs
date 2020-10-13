@@ -151,12 +151,23 @@ namespace SerpApi
       // append output format
       s += "&output=" + (jsonEnabled ? JSON_FORMAT : HTML_FORMAT);
 
-      // pre-append api_key
-      if (apiKeyContext != null)
+      // append source language
+      s += "&source=dotnet";
+
+      // append api_key
+      if (IsApiKeySet())
       {
-        s = "api_key=" + apiKeyContext + "&" + s;
+        s += "&api_key=" + apiKeyContext;
       }
       return s;
+    }
+
+    /***
+     * @return true when apiKey was set
+     */
+    public bool IsApiKeySet()
+    {
+      return this.apiKeyContext != null;
     }
 
     /***
