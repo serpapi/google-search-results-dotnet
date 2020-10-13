@@ -9,7 +9,8 @@ example=google
 all: clean restore build test
 
 clean:
-	dotnet clean
+	dotnet clean serpapi/
+	dotnet clean test/
 
 restore:
 	dotnet restore
@@ -19,7 +20,7 @@ build:
 
 test:
 	dotnet test test/ --configuration Release
-#	dotnet test test/ --configuration Release --filter TestSearchModifiedSpecialCharacters  --logger "console;verbosity=detailed"
+#	dotnet test test/ --configuration Release --filter TestSpecialCharactersEncoding  --logger "console;verbosity=detailed"
 
 run:
 	dotnet run
