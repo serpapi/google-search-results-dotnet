@@ -147,13 +147,15 @@ namespace SerpApi
         // encode each value in case of special character
         s += entry.Key + "=" + System.Web.HttpUtility.UrlEncode((string)entry.Value, System.Text.Encoding.UTF8);
       }
+
+      // append output format
+      s += "&output=" + (jsonEnabled ? JSON_FORMAT : HTML_FORMAT);
+
+      // pre-append api_key
       if (apiKeyContext != null)
       {
-        s += "&api_key=" + apiKeyContext;
+        s = "api_key=" + apiKeyContext + "&" + s;
       }
-
-      // add 
-      s += "&output=" + (jsonEnabled ? JSON_FORMAT : HTML_FORMAT);
       return s;
     }
 
