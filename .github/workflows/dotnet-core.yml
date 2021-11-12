@@ -5,13 +5,19 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet: [ '3.0', '3.1.x', '5.0.x', '6.0.x' ]
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.401'
-    - name: all
-      run: make all
-      env:
-        API_KEY: ${{secrets.API_KEY}}
+      - uses: actions/checkout@v2
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Display dotnet version
+        run: dotnet --version
+      - name: all
+        run: make all
+        env:
+          API_KEY: ${{secrets.API_KEY}}
