@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;netstandard2.1;net5.0;net6.0</TargetFramework>
+    <TargetFrameworks>net48;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;netstandard2.1;net5.0;net6.0</TargetFrameworks>
     <RootNamespace>google_search_results_dotnet</RootNamespace>
     <PackageId>google-search-results-dotnet</PackageId>
     <Version>2.1.0</Version>
