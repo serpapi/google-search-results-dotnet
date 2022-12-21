@@ -138,7 +138,7 @@ JObject data = search.GetJson();
 A full example is available here.
 https://github.com/serpapi/google-search-results-dotnet/blob/master/example/baidu/  
 test: https://github.com/serpapi/google-search-results-dotnet/blob/master/test/baidu_search_test.cs  
-doc: https://serpapi.com/baidy-search-api
+doc: https://serpapi.com/baidu-search-api
 
 ### Yahoo search engine
 ```csharp
