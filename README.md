@@ -6,8 +6,8 @@
 
 <div align="center">
 
-  <a href="">![NuGet version](https://badge.fury.io/nu/google-search-results-dotnet.svg)</a>
-  <a href="">![Nuget](https://img.shields.io/nuget/dt/google-search-results-dotnet)</a>
+  ![NuGet version](https://badge.fury.io/nu/google-search-results-dotnet.svg)
+  ![Nuget](https://img.shields.io/nuget/dt/google-search-results-dotnet)
   <a href="https://github.com/serpapi/google-search-results-dotnet/actions">![test](https://github.com/serpapi/google-search-results-dotnet/workflows/test/badge.svg)</a>
 
 </div>
